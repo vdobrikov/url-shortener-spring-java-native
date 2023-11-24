@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="URL Shortener">
+    <meta name="author" content="">
+    <link rel="icon" href="fav.ico">
+
+    <title>URL Shortener</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <style>
+        .height {
+            height: 100vh;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <div class="row d-flex justify-content-center align-items-center height">
+        <div class="col-md-6">
+            <div class="mb-3" >
+                <div class="input-group">
+                    <input id="urlText" type="text" class="form-control" placeholder="URL" aria-label="URL">
+                    <button class="btn btn-outline-secondary" type="button" onclick="shortenUrl(document.getElementById('urlText').value)">Shorten</button>
+                </div>
+            </div>
+            <div class="mb-3" >
+                <div class="input-group">
+                    <input id="urlShort" class="form-control" type="text" readonly>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="js/bootstrap.js"></script>
+<script>
+    function shortenUrl(url) {
+        fetch("/api/url?url=" + url)
+            .then((response) => response.text())
+            .then((text) => document.getElementById('urlShort').value = text);
+    }
+</script>
+</body>
+</html>
