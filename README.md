@@ -24,5 +24,5 @@ mvn -Pnative spring-boot:build-image
 Open http://localhost:8080 in your browser and enter a URL to shorten. 
 You can also use the API to generate a short URL from a long URL and to get the long URL from a short URL.
 ```
-GET /api/url?url=https://example.com
+GET /api/url/short?url=https://example.com
 ```
