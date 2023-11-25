@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="URL Shortener">
+    <meta name="author" content="">
+    <link rel="icon" href="img/fav.ico">
+
+    <title>Stats</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/custom.css" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="container">
+    <div class="row d-flex justify-content-center align-items-center">
+        <div class="col-md-10 mb-3">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th> URL </th>
+                    <th> Hash </th>
+                    <th> Usage Count </th>
+                    <th> Last Used </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:if="${urls.empty}">
+                    <td colspan="4"> No URLs Available </td>
+                </tr>
+                <tr th:each="url : ${urls}">
+                    <td><span th:text="${url.url}"> URL </span></td>
+                    <td><span th:text="${url.hash}"> Hash </span></td>
+                    <td><span th:text="${url.usageCount}"> UsageCount </span></td>
+                    <td><span th:text="${url.lastUsed}"> Last Used </span></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<footer class="footer">
+    <div class="container">
+        <ul class="nav justify-content-center border-bottom">
+            <li class="nav-item"><a href="/" class="nav-link px-2 text-body-secondary">Home</a></li>
+            <li class="nav-item"><a href="/stats" class="nav-link px-2 text-body-secondary">Stats</a></li>
+        </ul>
+    </div>
+</footer>
+
+<script src="js/bootstrap.js"></script>
+
+</body>
+</html>
