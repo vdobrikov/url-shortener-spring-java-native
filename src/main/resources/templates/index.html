@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="URL Shortener">
     <meta name="author" content="">
-    <link rel="icon" href="fav.ico">
+    <link rel="icon" href="img/fav.ico">
 
     <title>URL Shortener</title>
 
@@ -23,6 +23,9 @@
 <div class="container">
     <div class="row d-flex justify-content-center align-items-center height">
         <div class="col-md-6">
+            <div class="mb-3 text-center" >
+                <img src="img/shorts.png">
+            </div>
             <div class="mb-3" >
                 <div class="input-group">
                     <input id="urlText" type="text" class="form-control" placeholder="URL" aria-label="URL">
@@ -40,7 +43,7 @@
 <script src="js/bootstrap.js"></script>
 <script>
     function shortenUrl(url) {
-        fetch("/api/url?url=" + url)
+        fetch("/api/url/short?url=" + url)
             .then((response) => response.text())
             .then((text) => document.getElementById('urlShort').value = text);
     }
