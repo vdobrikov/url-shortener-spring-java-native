@@ -18,7 +18,7 @@ services:
       retries: 10
 
   backend:
-    image: docker.io/library/barcode-web-service:0.0.1-SNAPSHOT
+    image: docker.io/library/url-shortener-spring-java-native:0.0.1-SNAPSHOT
     environment:
       - DB_HOST=db
       - DB_PORT=3306

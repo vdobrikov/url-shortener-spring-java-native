@@ -83,6 +83,12 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
+                    <image>
+                        <!-- Original image -->
+                        <!-- <builder>paketobuildpacks/builder-jammy-base:latest</builder> -->
+                        <!-- Image for ARM64 arch -->
+                        <builder>dashaun/builder:tiny</builder>
+                    </image>
                     <excludes>
                         <exclude>
                             <groupId>org.projectlombok</groupId>
