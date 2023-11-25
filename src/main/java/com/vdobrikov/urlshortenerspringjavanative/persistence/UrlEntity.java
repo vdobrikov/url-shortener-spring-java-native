@@ -32,9 +32,11 @@ public class UrlEntity {
     @Column(name = "hash", unique = true, nullable = false, length = 10)
     private String hash;
 
+    @Builder.Default
     @Column(name = "count", nullable = false)
-    private long count = 0;
+    private long usageCount = 0;
 
+    @Builder.Default
     @Column(name = "last_used", nullable = false)
     private Instant lastUsed = Instant.now();
 }

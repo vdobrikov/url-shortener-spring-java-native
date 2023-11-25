@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.time.Instant;
+import java.util.Collection;
 import java.util.zip.CRC32;
 
 @RequiredArgsConstructor
@@ -33,8 +34,12 @@ public class UrlService {
                 .orElseThrow(() -> new UrlEntityNotFoundException(hash));
     }
 
+    public Collection<UrlEntity> listAllUrls() {
+        return urlEntityRepository.findAll();
+    }
+
     private UrlEntity incrementUsage(UrlEntity urlEntity) {
-        urlEntity.setCount(urlEntity.getCount() + 1);
+        urlEntity.setUsageCount(urlEntity.getUsageCount() + 1);
         return urlEntityRepository.save(urlEntity);
     }
 
@@ -42,7 +47,7 @@ public class UrlService {
         return UrlEntity.builder()
                 .url(url)
                 .hash(generateHash(url))
-                .count(0)
+                .usageCount(0)
                 .lastUsed(Instant.now())
                 .build();
     }
