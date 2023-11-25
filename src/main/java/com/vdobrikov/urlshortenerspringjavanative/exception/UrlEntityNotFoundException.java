@@ -8,12 +8,9 @@ import java.util.UUID;
 
 @ResponseStatus(code = HttpStatus.NOT_FOUND)
 public class UrlEntityNotFoundException extends NotFoundException {
+    private static final String MESSAGE_TEMPLATE = "Entity not found (%s). hash = %s";
 
-    public UrlEntityNotFoundException(String id) {
-        super(id, UrlEntity.class);
-    }
-
-    public UrlEntityNotFoundException(UUID id) {
-        super(id.toString(), UrlEntity.class);
+    public UrlEntityNotFoundException(String hash) {
+        super(String.format(MESSAGE_TEMPLATE, UrlEntity.class.getSimpleName(), hash));
     }
 }

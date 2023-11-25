@@ -1,0 +1,33 @@
+services:
+  db:
+    image: mysql:8.0.32
+    command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    restart: always
+    environment:
+      - MYSQL_DATABASE=urlshortener
+      - MYSQL_USER=urlshortener
+      - MYSQL_PASSWORD=chang3Me
+      - MYSQL_ROOT_PASSWORD=chang3MeT0O
+    volumes:
+      - ./mysql_data:/var/lib/mysql
+    ports:
+      - 3306:3306
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "-u$MYSQL_USER", "-p$MYSQL_PASSWORD",  "ping", "-h", "localhost" ]
+      interval: 1s
+      retries: 10
+
+  backend:
+    image: docker.io/library/barcode-web-service:0.0.1-SNAPSHOT
+    environment:
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_NAME=urlshortener
+      - DB_USER=urlshortener
+      - DB_PASSWORD=chang3Me
+    ports:
+      - 8080:8080
+    depends_on:
+      db:
+        condition: service_healthy
+

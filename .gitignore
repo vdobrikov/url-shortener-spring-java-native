@@ -34,3 +34,4 @@ build/
 
 ### Project Specific ###
 dev.env
+docker/mysql_data/

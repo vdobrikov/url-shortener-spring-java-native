@@ -7,7 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.util.UUID;
+import java.time.Instant;
+import java.util.zip.CRC32;
 
 @RequiredArgsConstructor
 @Service
@@ -17,17 +18,38 @@ public class UrlService {
     public String shortenUrl(String url) {
         final String normalizedUrl = url.trim().toLowerCase();
         UrlEntity urlEntity = urlEntityRepository.findByUrl(normalizedUrl)
-                .orElseGet(() -> urlEntityRepository.save(new UrlEntity(normalizedUrl)));
+                .orElseGet(() -> urlEntityRepository.save(createNewUrlEntity(normalizedUrl)));
 
         return ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path(urlEntity.getId().toString())
+                .path(urlEntity.getHash())
                 .build()
                 .toUriString();
     }
 
-    public String findUrl(String id) {
-        return urlEntityRepository.findById(UUID.fromString(id))
+    public String findUrlAndIncrementUsage(String hash) {
+        return urlEntityRepository.findByHash(hash)
+                .map(this::incrementUsage)
                 .map(UrlEntity::getUrl)
-                .orElseThrow(() -> new UrlEntityNotFoundException(id));
+                .orElseThrow(() -> new UrlEntityNotFoundException(hash));
+    }
+
+    private UrlEntity incrementUsage(UrlEntity urlEntity) {
+        urlEntity.setCount(urlEntity.getCount() + 1);
+        return urlEntityRepository.save(urlEntity);
+    }
+
+    private UrlEntity createNewUrlEntity(String url) {
+        return UrlEntity.builder()
+                .url(url)
+                .hash(generateHash(url))
+                .count(0)
+                .lastUsed(Instant.now())
+                .build();
+    }
+
+    private String generateHash(String url) {
+        CRC32 crc32 = new CRC32();
+        crc32.update(url.getBytes());
+        return Long.toHexString(crc32.getValue());
     }
 }

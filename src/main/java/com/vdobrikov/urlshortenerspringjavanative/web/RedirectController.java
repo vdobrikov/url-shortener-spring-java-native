@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.UUID;
-
 @Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/")
@@ -19,20 +17,18 @@ import java.util.UUID;
 public class RedirectController {
     private final UrlService urlService;
 
-    @GetMapping("/{id}")
-    public ModelAndView redirect(@PathVariable String id) {
-        log.info("GET redirect. id='{}'", id);
+    @GetMapping("/{hash}")
+    public ModelAndView redirect(@PathVariable String hash) {
+        log.info("GET redirect. hash='{}'", hash);
 
-        validate(id);
+        validate(hash);
 
-        return new ModelAndView("redirect:" + urlService.findUrl(id));
+        return new ModelAndView("redirect:" + urlService.findUrlAndIncrementUsage(hash));
     }
 
-    private static void validate(String id) {
-        try {
-            UUID.fromString(id);
-        } catch (IllegalArgumentException e) {
-            throw new UrlEntityNotFoundException(id);
+    private static void validate(String hash) {
+        if (hash == null || hash.isEmpty()) {
+            throw new UrlEntityNotFoundException(hash);
         }
     }
 }
